@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
+    <meta name="x5-fullscreen" content="true">
+    <meta name="full-screen" content="yes">
+	<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<link rel="shortcut icon" href="images/favicon.ico">
+<link rel="stylesheet" href="images/index.css">
+<link rel="stylesheet" href="./css/jquery-loading.css">
+<script src=./lib/jquery-3.3.1.min.js></script>
+<script src=./lib/browser.js></script>
+<script src=./lib/dapi.js></script>
+<script src=./lib/async.js></script>
+<script src=./lib/bootstrap-4.0.0-dist/js/bootstrap.min.js></script>
+<script src=https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.4/dist/loadingoverlay.min.js></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<style>
+	.div.b {
+	word-wrap: break-word;
+	}
+
+	html,body {
+		width: 100%;
+		height: 100%;
+	}
+	body {
+		position: fixed;
+		overflow: hidden;
+	}
+</style>
+<title>币圈忍者 | Crypto Ninja</title>
+<!--[if lt IE 9]><script>document.createElement("canvas");</script><![endif]-->
+</head>
+<body>
+<div id="extra"></div>
+<canvas id="view" width="480" height="640"></canvas>
+<div id="stat">
+	<span class="stat-tag" id="visitor-count"> </span>
+	<span class="stat-tag" id="gameplay-count"> </span>
+</div>
+<div id="desc">
+<div id="browser"></div>
+</div>
+<script src="scripts/all.js"></script>
+<script>
+    document.body.addEventListener('touchmove', function(event) {
+        console.log(event.source);
+        //if (event.source == document.body)
+        event.preventDefault();
+    }, false);
+</script>
+</body>
+</html>

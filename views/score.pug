@@ -1,0 +1,65 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="uft-8")
+        meta(http-equiv="X-UA-Compatible" content="ie=edge")
+        meta(name="viewport" content="width=device-width,initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no")
+        meta(name="x5-fullscreen" content="true")
+        meta(name="full-screen" content="yes")
+        meta(name="apple-mobile-web-app-capable" content="yes")
+        meta(name="apple-mobile-web-app-status-bar-style" content="black")
+        script(src="/lib/jquery-3.3.1.min.js")
+        title Score
+    body(onLoad="drawCanvas();")
+        p(align="middle") 请点击右上角保存，分享朋友圈
+        style(type='text/css').
+            body {
+                width: 100%;
+                height: 100%;
+                background: #3f3f3f;
+            }
+            p {
+                color: white;
+            }
+            #canvas {
+                position: absolute;
+                left: calc(50% - 300px);
+                top: 40px;
+                text-align: center;
+                color: gainsboro;
+                font-family: arial;
+            }
+        script.
+            function drawCanvas() {
+                var circle_canvas = document.getElementById("canvas");
+                var context = circle_canvas.getContext("2d");
+                // Draw Image function
+                imageName="#{imageName}"
+                var img = new Image();
+                img.src = "/images/score/" + imageName;
+                img.onload = function() {
+                    context.drawImage(img, 0, 0);
+                    // Fill Text
+                    score="#{score}";
+                    diff="#{diff}";
+                    context.textAlign = "center";
+                    context.lineWidth = 1;
+                    context.fillStyle = "#FFC000";
+                    context.lineStyle = "#ffffff";
+                    var scoreSize = 75;
+                    if (score.length >= 4) {
+                        scoreSize = 60;
+                    }
+                    context.font = `900 ${scoreSize}px Calibri`;
+                    context.fillText(score, 300, 405);
+                    var diffSize = 1;
+                    if (diff.length >= 4) {
+                        diffSize = 0.8;
+                    }
+                    context.font = `1000 ${diffSize}em Calibri`;
+                    context.fillStyle = "#E7E6E6";
+                    context.fillText(diff, 425, 524);
+                };
+            }
+        canvas(id="canvas" width="594" height="867")
+            p We apologize, your browser does not support canvas at this time!
