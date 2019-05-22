@@ -716,9 +716,13 @@ define("scripts/sence.js", function(exports){
 		if(isPC()){
 			client = dApi.client;
 			client.registerClient({});
+			console.log("web client");
+			console.log(client);
 		} else {
 			client = CyanoMobile.client;
 			client.registerClient();
+			console.log("mobile client");
+			console.log(client);
 		}
 		return client;
 	}
