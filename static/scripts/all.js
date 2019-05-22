@@ -717,7 +717,7 @@ define("scripts/sence.js", function(exports){
 			client = dApi.client;
 			client.registerClient({});
 		} else {
-			client = cyanobridge.client;
+			client = CyanoMobile.client;
 			client.registerClient();
 		}
 		return client;
