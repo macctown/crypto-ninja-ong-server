@@ -472,11 +472,11 @@ define("scripts/main.js", function(exports){
 	
 	var tip = "";
 	
-	if( !Ucren.isChrome )
-	    tip = "$为了获得最佳流畅度，推荐您使用 <span class='b'>Google Chrome</span> 体验本游戏";
+	// if( !Ucren.isChrome )
+	//     tip = "$为了获得最佳流畅度，推荐您使用 <span class='b'>Google Chrome</span> 体验本游戏";
 	
-	if( !buzz.isSupported() )
-	    tip = tip.replace( "$", "您的浏览器不支持 &lt;audio&gt 播放声效，且" );
+	// if( !buzz.isSupported() )
+	//     tip = tip.replace( "$", "您的浏览器不支持 &lt;audio&gt 播放声效，且" );
 	
 	tip = tip.replace( "$", "" );
 	
@@ -731,6 +731,7 @@ define("scripts/sence.js", function(exports){
 		var client = getOntClient();
 		try {
 			const res = await client.api.provider.getProvider();
+			console.log(res);
 			return res;
 		} catch (e) {
 			if(e == 'TIMEOUT'){
@@ -765,17 +766,33 @@ define("scripts/sence.js", function(exports){
 	    const asset = "ONG";
 		var client = getOntClient();
 		var sendResult = {};
-	    try {
-	      const result = await client.api.asset.send({ to, asset, amount });
-	      sendResult.isSent = true;
-	      sendResult.result = result;
-	      return sendResult;
-	    } catch (e) {
-	      console.log('onSend error:', e);
-	      sendResult.isSent = false;
-	      sendResult.result = e;
-	      return sendResult;
-	    }
+		if (isPC()) {
+			try {
+		      const result = await client.api.asset.send({ to, asset, amount });
+		      sendResult.isSent = true;
+		      sendResult.result = result;
+		      return sendResult;
+		    } catch (e) {
+		      console.log('onSend error:', e);
+		      sendResult.isSent = false;
+		      sendResult.result = e;
+		      return sendResult;
+		    }
+		} else {
+			try {
+			  const from = await getAccount();
+		      const result = await client.api.asset.transfer({from, to, asset, amount });
+		      sendResult.isSent = true;
+		      sendResult.result = result;
+		      return sendResult;
+		    } catch (e) {
+		      console.log('onSend error:', e);
+		      sendResult.isSent = false;
+		      sendResult.result = e;
+		      return sendResult;
+		    }
+		}
+	    
 	}
 
 	async function onGetTransaction(txnHash) {
