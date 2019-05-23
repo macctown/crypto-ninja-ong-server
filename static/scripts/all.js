@@ -841,7 +841,7 @@ define("scripts/sence.js", function(exports){
 			|| providerInfo.name === undefined 
 			|| providerInfo.version === undefined
 			|| providerInfo.compatibility === undefined
-			|| providerInfo.name !== "Cyano wallet") || (account === undefined)){
+			|| providerInfo.name !== "Cyano wallet") && (account === undefined)){
 			swal("请安装Cyano钱包插件", {
 			    icon: "error",
 				title: "未发现您的钱包",
