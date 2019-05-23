@@ -807,6 +807,8 @@ define("scripts/sence.js", function(exports){
 
 	// to enter dojo mode
 	exports.showDojo = async function( callback ){
+		var account = await getAccount();
+		console.log(account);
 		var providerInfo = await getProvider();
 		var intervalQuery;
 		if(providerInfo === undefined 
