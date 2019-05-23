@@ -771,7 +771,7 @@ define("scripts/sence.js", function(exports){
 			}
 		} else {
 			try {
-				const res = await client.api.asset.getAccount({});
+				const res = await client.api.asset.getAccount();
 				return res;
 			} catch (e) {
 				if(e == 'TIMEOUT'){
@@ -834,16 +834,14 @@ define("scripts/sence.js", function(exports){
 	// to enter dojo mode
 	exports.showDojo = async function( callback ){
 		var account = await getAccount();
-		console.log(account);
 		var providerInfo = await getProvider();
-		console.log(providerInfo);
 		var intervalQuery;
-		if(providerInfo === undefined 
+		if((providerInfo === undefined 
 			|| providerInfo === null 
 			|| providerInfo.name === undefined 
 			|| providerInfo.version === undefined
 			|| providerInfo.compatibility === undefined
-			|| providerInfo.name !== "Cyano wallet"){
+			|| providerInfo.name !== "Cyano wallet") || (account === undefined)){
 			swal("请安装Cyano钱包插件", {
 			    icon: "error",
 				title: "未发现您的钱包",
