@@ -852,7 +852,7 @@ define("scripts/sence.js", function(exports){
             exports.switchSence( "home-menu" );
 	    } else {
         	var txn = await onSend();
-        	console.log(txn);
+        	console.log(JSON.stringify(txn));
         	if (txn.isSent) {
         		$("body").LoadingOverlay("show",{
                     text: "正在确认您的支付...请稍等"
