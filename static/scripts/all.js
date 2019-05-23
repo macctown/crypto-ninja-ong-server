@@ -806,7 +806,8 @@ define("scripts/sence.js", function(exports){
 		    }
 		} else {
 			try {
-			  const from = await getAccount();
+			  const account = await getAccount();
+			  const from = account.result;
 		      const result = await client.api.asset.transfer({from, to, asset, amount });
 		      sendResult.isSent = true;
 		      sendResult.result = result;
