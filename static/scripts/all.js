@@ -810,6 +810,7 @@ define("scripts/sence.js", function(exports){
 		var account = await getAccount();
 		console.log(account);
 		var providerInfo = await getProvider();
+		console.log(providerInfo);
 		var intervalQuery;
 		if(providerInfo === undefined 
 			|| providerInfo === null 
