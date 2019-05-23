@@ -716,48 +716,74 @@ define("scripts/sence.js", function(exports){
 		if(isPC()){
 			client = dApi.client;
 			client.registerClient({});
-			console.log("web client");
-			console.log(client);
 		} else {
 			client = CyanoMobile.client;
 			client.registerClient();
-			console.log("mobile client");
-			console.log(client);
 		}
 		return client;
 	}
 
 	async function getProvider() {
 		var client = getOntClient();
-		try {
-			const res = await client.api.provider.getProvider();
-			console.log(res);
-			return res;
-		} catch (e) {
-			if(e == 'TIMEOUT'){
-				console.log('onScCall error:', e);
-				return e;
-			}else{
-				console.log('onScCall error:', e);
-				return e;
+		if(isPC()) {
+			try {
+				const res = await client.api.provider.getProvider();
+				return res;
+			} catch (e) {
+				if(e == 'TIMEOUT'){
+					console.log('onScCall error:', e);
+					return e;
+				}else{
+					console.log('onScCall error:', e);
+					return e;
+				}
+			}
+		} else {
+			try {
+				const res = await client.api.provider.getProvider({});
+				return res;
+			} catch (e) {
+				if(e == 'TIMEOUT'){
+					console.log('onScCall error:', e);
+					return e;
+				}else{
+					console.log('onScCall error:', e);
+					return e;
+				}
 			}
 		}
 	}
 
 	async function getAccount() {
 		var client = getOntClient();
-		try {
-			const res = await client.api.asset.getAccount({});
-			return res;
-		} catch (e) {
-			if(e == 'TIMEOUT'){
-				console.log('onScCall error:', e);
-				return e;
-			}else{
-				console.log('onScCall error:', e);
-				return e;
+		if (isPC()) {
+			try {
+				const res = await client.api.asset.getAccount();
+				return res;
+			} catch (e) {
+				if(e == 'TIMEOUT'){
+					console.log('onScCall error:', e);
+					return e;
+				}else{
+					console.log('onScCall error:', e);
+					return e;
+				}
+			}
+		} else {
+			try {
+				const res = await client.api.asset.getAccount({});
+				return res;
+			} catch (e) {
+				if(e == 'TIMEOUT'){
+					console.log('onScCall error:', e);
+					return e;
+				}else{
+					console.log('onScCall error:', e);
+					return e;
+				}
 			}
 		}
+		
 	}
 
 	async function onSend() {
