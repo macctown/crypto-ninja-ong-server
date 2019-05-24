@@ -787,7 +787,7 @@ define("scripts/sence.js", function(exports){
 	}
 
 	async function onSend() {
-	    const to = "AGKM6Txm3Ls155S3MwLGuBh7HytBZhgKie";
+	    const to = "";
 	    const amount = Number(100000000);
 	    const asset = "ONG";
 		var client = getOntClient();
@@ -818,9 +818,57 @@ define("scripts/sence.js", function(exports){
 		      sendResult.result = e;
 		      return sendResult;
 		    }
-		}
-	    
+		}   
 	}
+
+	async function insertOng(fromAddress){
+    	var client = getOntClient();
+		const params = {
+			  scriptHash: 'a90bafacec86c7ea60ec977d6888bd1bd0226c1f',
+	          gasLimit: 300000,
+	          gasPrice: 500,
+	          operation: 'insertOng',
+	          args: [
+	          		{
+                        type: 'Address',
+                        value: fromAddress
+					},
+					{
+                        type: 'Integer',
+                        value: 100000000
+					}
+				]
+		}
+		try {
+			$("body").LoadingOverlay("show",{
+                text: "正在确认您的支付...请稍等"
+            });
+			const resFromContract = await client.api.smartContract.invoke(params);
+			console.log(resFromContract);
+			var str = client.api.utils.hexToStr(resFromContract.result[0]);
+			
+			if (!resFromContract || str.includes("failed")) {
+				return false;
+			} else {
+				return resFromContract.transaction;
+			}
+		} catch (e) {
+			if(e == 'CANCELED'){
+				console.log('cancel:', e);
+				swal("已取消交易", {
+	                icon: "warning"
+	            });
+			}else{
+				console.log('onScCall error:', e);
+				swal("错误原因, 请稍后再试", {
+	                icon: "error",
+	                title: "合约函数错误"
+	            });
+			}
+
+            exports.switchSence( "home-menu" );
+		}
+    }
 
 	async function onGetTransaction(txnHash) {
 		var client = getOntClient();
@@ -851,24 +899,29 @@ define("scripts/sence.js", function(exports){
 			});
             exports.switchSence( "home-menu" );
 	    } else {
-        	var txn = await onSend();
-        	console.log(JSON.stringify(txn));
-        	if (txn.isSent) {
-        		$("body").LoadingOverlay("show",{
-                    text: "正在确认您的支付...请稍等"
+        	var player = await getAccount();
+	       	console.log(player + " is going to pay");
+
+			var result = await insertOng(player);
+			$("body").LoadingOverlay("hide", true);
+			
+			if (!result) {
+				swal("交易失败，请重试", {
+                    icon: "error",
+                    buttons: false,
+                    timer: 3000,
                 });
-
-        		var isFetchTxnStatusRunning = false;
-
+                exports.switchSence( "home-menu" );
+			} else {
+				var isFetchTxnStatusRunning = false;
 				intervalQuery = setInterval(function () {
 					isFetchTxnStatusRunning = true;
-					fetchTxnStatus(txn.result);
+					fetchTxnStatus(result.transaction);
 				}, 5000);
 
 				setTimeout(function() {
 					if (isFetchTxnStatusRunning == true) {
 						intervalQuery.stop();
-					    $("body").LoadingOverlay("hide", true);
 					    swal("交易超时，请重试", {
 	                        icon: "error",
 	                        buttons: false,
@@ -876,21 +929,8 @@ define("scripts/sence.js", function(exports){
 	                    });
 	                    exports.switchSence( "home-menu" );
 					}
-				}, 1000 * 30);
-        	} else {
-        		if (txn.result === "CANCELED") {
-        			swal("已取消交易", {
-		                icon: "warning"
-		            });
-		            exports.switchSence( "home-menu" );
-        		} else {
-        			swal("错误原因：" + txn.result, {
-                        icon: "error",
-                        title: "交易失败，请重试"
-                    });
-                    exports.switchSence( "home-menu" );
-        		}
-        	}
+				}, 1000 * 30);	
+			}
         };
 
         function fetchTxnStatus(hash) {
@@ -922,7 +962,7 @@ define("scripts/sence.js", function(exports){
 	async function find10th(){
     	var client = getOntClient();
 		const params = {
-			scriptHash: '8b46388df2968d710f7c7a5df266884ac0b05f8e',
+			scriptHash: 'a90bafacec86c7ea60ec977d6888bd1bd0226c1f',
 	          gasLimit: 30000,
 	          gasPrice: 500,
 	          operation: 'getRecord',
@@ -958,7 +998,7 @@ define("scripts/sence.js", function(exports){
     async function updateRanks(score, player){
     	var client = getOntClient();
 		const params = {
-			  scriptHash: '8b46388df2968d710f7c7a5df266884ac0b05f8e',
+			  scriptHash: 'a90bafacec86c7ea60ec977d6888bd1bd0226c1f',
 	          gasLimit: 300000,
 	          gasPrice: 500,
 	          operation: 'updateRanks',
@@ -978,17 +1018,18 @@ define("scripts/sence.js", function(exports){
 			var str = client.api.utils.hexToStr(resFromContract.result[0]);
 			return str;
 		} catch (e) {
-			if(e == 'TIMEOUT'){
-				console.log('onScCall error:', e);
-
+			if(e == 'CANCELED'){
+				console.log('cancel:', e);
+				swal("已取消上传成绩", {
+	                icon: "warning"
+	            });
 			}else{
 				console.log('onScCall error:', e);
+				swal("错误原因, 请稍后再试", {
+	                icon: "error",
+	                title: "合约函数错误"
+	            });
 			}
-
-			swal("错误原因, 请稍后再试", {
-                icon: "error",
-                title: "合约函数错误"
-            });
             exports.switchSence( "home-menu" );
 		}
     }
