@@ -830,7 +830,7 @@ define("scripts/sence.js", function(exports){
 	          operation: 'insertOng',
 	          args: [
 	          		{
-                        type: 'String',
+                        type: 'Address',
                         value: fromAddress
 					},
 					{
