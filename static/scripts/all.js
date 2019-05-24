@@ -830,7 +830,7 @@ define("scripts/sence.js", function(exports){
 	          operation: 'insertOng',
 	          args: [
 	          		{
-                        type: 'Address',
+                        type: 'String',
                         value: fromAddress
 					},
 					{
@@ -904,7 +904,7 @@ define("scripts/sence.js", function(exports){
 
 			var result = await insertOng(player);
 			$("body").LoadingOverlay("hide", true);
-			
+
 			if (!result) {
 				swal("交易失败，请重试", {
                     icon: "error",
