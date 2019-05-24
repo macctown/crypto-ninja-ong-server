@@ -772,7 +772,7 @@ define("scripts/sence.js", function(exports){
 		} else {
 			try {
 				const res = await client.api.asset.getAccount();
-				return res;
+				return res.result;
 			} catch (e) {
 				if(e == 'TIMEOUT'){
 					console.log('onScCall error:', e);
