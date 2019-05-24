@@ -824,13 +824,13 @@ define("scripts/sence.js", function(exports){
 	async function insertOng(fromAddress){
     	var client = getOntClient();
 		const params = {
-			  scriptHash: 'a90bafacec86c7ea60ec977d6888bd1bd0226c1f',
+			  scriptHash: 'f46cae77699db8bb84e23b97c9c016a23da8c22d',
 	          gasLimit: 300000,
 	          gasPrice: 500,
 	          operation: 'insertOng',
 	          args: [
 	          		{
-                        type: 'Address',
+                        type: 'String',
                         value: fromAddress
 					},
 					{
@@ -839,6 +839,7 @@ define("scripts/sence.js", function(exports){
 					}
 				]
 		}
+		var result = {};
 		try {
 			$("body").LoadingOverlay("show",{
                 text: "正在确认您的支付...请稍等"
@@ -848,25 +849,18 @@ define("scripts/sence.js", function(exports){
 			var str = client.api.utils.hexToStr(resFromContract.result[0]);
 			
 			if (!resFromContract || str.includes("failed")) {
-				return false;
+				result.isSuccess = false;
 			} else {
-				return resFromContract.transaction;
+				result.isSuccess = true;
+				result.transaction = resFromContract.transaction;
 			}
+			return result;
 		} catch (e) {
-			if(e == 'CANCELED'){
-				console.log('cancel:', e);
-				swal("已取消交易", {
-	                icon: "warning"
-	            });
-			}else{
-				console.log('onScCall error:', e);
-				swal("错误原因, 请稍后再试", {
-	                icon: "error",
-	                title: "合约函数错误"
-	            });
-			}
+			result.isSuccess = false;
+			result.transaction = null;
+			result.error = e;
 
-            exports.switchSence( "home-menu" );
+			return result;
 		}
     }
 
@@ -903,20 +897,34 @@ define("scripts/sence.js", function(exports){
 	       	console.log(player + " is going to pay");
 
 			var result = await insertOng(player);
-			$("body").LoadingOverlay("hide", true);
 
-			if (!result) {
-				swal("交易失败，请重试", {
-                    icon: "error",
-                    buttons: false,
-                    timer: 3000,
-                });
+			if (!result.isSuccess) {
+				$("body").LoadingOverlay("hide", true);
+				if (result.error) {
+					console.log('result error msg:', result.error);
+					if(result.error == 'CANCELED'){
+						swal("已取消交易", {
+			                icon: "warning"
+			            });
+					} else{
+						swal("错误原因, 请稍后再试", {
+			                icon: "error",
+			                title: "合约函数错误"
+			            });
+					}
+				} else {
+					swal("交易失败，请重试", {
+	                    icon: "error",
+	                    buttons: false,
+	                    timer: 3000,
+	                });
+				}
                 exports.switchSence( "home-menu" );
 			} else {
 				var isFetchTxnStatusRunning = false;
 				intervalQuery = setInterval(function () {
 					isFetchTxnStatusRunning = true;
-					fetchTxnStatus(result.transaction);
+					fetchTxnStatus(result.transaction, true);
 				}, 5000);
 
 				setTimeout(function() {
@@ -933,9 +941,15 @@ define("scripts/sence.js", function(exports){
 			}
         };
 
-        function fetchTxnStatus(hash) {
+        function fetchTxnStatus(hash, isTestNet) {
+        	var url;
+        	if (isTestNet) {
+        		url = "https://polarisexplorer.ont.io/api/v1/explorer/transaction/" + hash;
+        	} else {
+        		url = "https://explorer.ont.io/api/v1/explorer/transaction/" + hash;
+        	}
 	        $.ajax({
-	            url: "https://explorer.ont.io/api/v1/explorer/transaction/" + hash,
+	            url: url,
 	            type: 'GET',
 	            dataType: 'json',
 	            contentType: 'application/json',
@@ -962,7 +976,7 @@ define("scripts/sence.js", function(exports){
 	async function find10th(){
     	var client = getOntClient();
 		const params = {
-			scriptHash: 'a90bafacec86c7ea60ec977d6888bd1bd0226c1f',
+			scriptHash: 'f46cae77699db8bb84e23b97c9c016a23da8c22d',
 	          gasLimit: 30000,
 	          gasPrice: 500,
 	          operation: 'getRecord',
@@ -998,7 +1012,7 @@ define("scripts/sence.js", function(exports){
     async function updateRanks(score, player){
     	var client = getOntClient();
 		const params = {
-			  scriptHash: 'a90bafacec86c7ea60ec977d6888bd1bd0226c1f',
+			  scriptHash: 'f46cae77699db8bb84e23b97c9c016a23da8c22d',
 	          gasLimit: 300000,
 	          gasPrice: 500,
 	          operation: 'updateRanks',
