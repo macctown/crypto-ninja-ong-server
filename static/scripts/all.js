@@ -839,6 +839,11 @@ define("scripts/sence.js", function(exports){
 					}
 				]
 		}
+
+		if (!isPC()) {
+			params.payer = fromAddress;
+		}
+
 		var result = {};
 		try {
 			$("body").LoadingOverlay("show",{
