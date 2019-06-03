@@ -850,6 +850,7 @@ define("scripts/sence.js", function(exports){
                 text: "正在确认您的支付...请稍等"
             });
 			const resFromContract = await client.api.smartContract.invoke(params);
+			console.log(params);
 			console.log(resFromContract);
 			var str = client.api.utils.hexToStr(resFromContract.result[0]);
 			
@@ -899,7 +900,14 @@ define("scripts/sence.js", function(exports){
             exports.switchSence( "home-menu" );
 	    } else {
         	var player = await getAccount();
-	       	console.log(player + " is going to pay");
+        	if (player == "Time out") {
+        		swal("请稍后再试", {
+	                icon: "error",
+	                title: "获取账户超时"
+	            });
+	            exports.switchSence( "home-menu" );
+        	} else {
+        		console.log(player + " is going to pay");
 
 			var result = await insertOng(player);
 
@@ -932,18 +940,19 @@ define("scripts/sence.js", function(exports){
 					fetchTxnStatus(result.transaction, true);
 				}, 5000);
 
-				setTimeout(function() {
-					if (isFetchTxnStatusRunning == true) {
-						intervalQuery.stop();
-					    swal("交易超时，请重试", {
-	                        icon: "error",
-	                        buttons: false,
-	                        timer: 3000,
-	                    });
-	                    exports.switchSence( "home-menu" );
-					}
-				}, 1000 * 30);	
-			}
+					setTimeout(function() {
+						if (isFetchTxnStatusRunning == true) {
+							intervalQuery.stop();
+						    swal("交易超时，请重试", {
+		                        icon: "error",
+		                        buttons: false,
+		                        timer: 3000,
+		                    });
+		                    exports.switchSence( "home-menu" );
+						}
+					}, 1000 * 30);	
+				}
+        	}
         };
 
         function fetchTxnStatus(hash, isTestNet) {

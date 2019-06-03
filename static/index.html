@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width,initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
+	<meta name="viewport" content="width=device-width,initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no">
+	<!-- <meta name="viewport" content="width=device-width,initial-scale=0.5, maximum-scale=0.5, minimum-scale=0.5, user-scalable=no"> -->
     <meta name="x5-fullscreen" content="true">
     <meta name="full-screen" content="yes">
 	<meta name="apple-mobile-web-app-capable" content="yes">
@@ -19,19 +20,30 @@
 <script src=./lib/bootstrap-4.0.0-dist/js/bootstrap.min.js></script>
 <script src=https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.4/dist/loadingoverlay.min.js></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+	// $(document).ready(() => {
+	// 	$.post("/api/visitors", {}, (visitors) => {
+	// 		document.getElementById("visitor-count").textContent = `Total visitors: ${visitors}`;
+	// 	});
+	// 	$.get('/api/gameplays', (gameplays) => {
+	// 		document.getElementById("gameplay-count").textContent = `Total gameplays: ${gameplays}`;
+	// 	});
+	// });
+</script>
 <style>
 	.div.b {
 	word-wrap: break-word;
 	}
 
 	html,body {
-		/*width: 100%;
-		height: 100%;*/
+		/* width: 100%;
+		height: 100%; */
 		width: 480px;
 		height: 640px;
 	}
 	body {
-		position: fixed;
+		/* position: fixed; */
+		position: relative;
 		overflow: hidden;
 	}
 </style>
@@ -40,7 +52,8 @@
 </head>
 <body>
 <div id="extra"></div>
-<canvas id="view" width="480" height="640"></canvas>
+<canvas id="view" width="1080" height="1920"></canvas> 
+<!-- // setting canvase  above does not matter -->
 <div id="stat">
 	<span class="stat-tag" id="visitor-count"> </span>
 	<span class="stat-tag" id="gameplay-count"> </span>
