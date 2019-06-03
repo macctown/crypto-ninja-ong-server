@@ -1066,7 +1066,7 @@ define("scripts/sence.js", function(exports){
 				]
 		}
 		if (!isPC()) {
-			params.payer = fromAddress;
+			params.payer = player;
 		}
 		try {
 			const resFromContract = await client.api.smartContract.invoke(params);
