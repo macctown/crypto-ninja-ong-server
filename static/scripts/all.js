@@ -1076,7 +1076,7 @@ define("scripts/sence.js", function(exports){
 			} else {
 				str = resFromContract.result[0];
 			}
-			console.log("result of updateRanks: " + resFromContract);
+			console.log("result of updateRanks: " + JSON.stringify(resFromContract));
 			return str;
 		} catch (e) {
 			if(e == 'CANCELED'){
