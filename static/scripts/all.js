@@ -1074,7 +1074,7 @@ define("scripts/sence.js", function(exports){
 			if (isPC()) {
 				str = client.api.utils.hexToStr(resFromContract.result[0]);
 			} else {
-				str = parseInt(resFromContract.result[0],16);
+				str = hexToStr(resFromContract.result[0]);
 			}
 			console.log("result of updateRanks: " + str);
 			return str;
