@@ -1065,13 +1065,16 @@ define("scripts/sence.js", function(exports){
 					}
 				]
 		}
+		if (!isPC()) {
+			params.payer = fromAddress;
+		}
 		try {
 			const resFromContract = await client.api.smartContract.invoke(params);
 			var str = "";
 			if (isPC()) {
 				str = client.api.utils.hexToStr(resFromContract.result[0]);
 			} else {
-				str = hexToStr(resFromContract.result[0])
+				str = parseInt(resFromContract.result[0]， 16);
 			}
 			return str;
 		} catch (e) {
@@ -1108,7 +1111,6 @@ define("scripts/sence.js", function(exports){
 	                timer: 3000,
 	            });
 			} else {
-
 				$("body").LoadingOverlay("show",{
 		            text: "恭喜您进入前10名！正在上传您的排名...请稍等"
 		        });
