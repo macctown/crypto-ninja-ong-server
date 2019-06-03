@@ -1076,6 +1076,7 @@ define("scripts/sence.js", function(exports){
 			} else {
 				str = parseInt(resFromContract.result[0],16);
 			}
+			console.log("result of updateRanks: " + str);
 			return str;
 		} catch (e) {
 			if(e == 'CANCELED'){
@@ -1116,6 +1117,7 @@ define("scripts/sence.js", function(exports){
 		        });
 		        setTimeout(async function (){
 		        	var updateResult = await updateRanks(scoreInt.toString(), player);
+					console.log("result after updateRanks: " + updateResult);
 			        if (updateResult.includes("SUCCESSFUL")){
 			        	$("body").LoadingOverlay("hide", true);
 			        	var rank = updateResult.split("message")[1].split("type")[0].trim();
