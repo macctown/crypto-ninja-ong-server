@@ -852,14 +852,19 @@ define("scripts/sence.js", function(exports){
 			const resFromContract = await client.api.smartContract.invoke(params);
 			console.log(params);
 			console.log(resFromContract);
-			var str = client.api.utils.hexToStr(resFromContract.result[0]);
-			
+			var str = '';
+			if (isPC()) {
+				str = client.api.utils.hexToStr(resFromContract.result[0]);
+			} else {
+				str = hexToStr(resFromContract.result[0])
+			}
 			if (!resFromContract || str.includes("failed")) {
 				result.isSuccess = false;
 			} else {
 				result.isSuccess = true;
 				result.transaction = resFromContract.transaction;
 			}
+			console.log(result);
 			return result;
 		} catch (e) {
 			result.isSuccess = false;
@@ -869,6 +874,16 @@ define("scripts/sence.js", function(exports){
 			return result;
 		}
     }
+
+    function hexToStr(str1)
+	{
+		var hex  = str1.toString();
+		var str = '';
+		for (var n = 0; n < hex.length; n += 2) {
+			str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+		}
+		return str;
+	 }
 
 	async function onGetTransaction(txnHash) {
 		var client = getOntClient();
@@ -1003,7 +1018,12 @@ define("scripts/sence.js", function(exports){
 		}
 		try {
 			const resFromContract = await client.api.smartContract.invokeRead(params);
-			var str = client.api.utils.hexToStr(resFromContract);
+			var str = "";
+			if (isPC()) {
+				str = client.api.utils.hexToStr(resFromContract);
+			} else {
+				str = hexToStr(resFromContract)
+			}
 			var strArr = str.split("score");
 			return strArr[strArr.length-1].trim();
 		} catch (e) {
@@ -1043,7 +1063,12 @@ define("scripts/sence.js", function(exports){
 		}
 		try {
 			const resFromContract = await client.api.smartContract.invoke(params);
-			var str = client.api.utils.hexToStr(resFromContract.result[0]);
+			var str = "";
+			if (isPC()) {
+				str = client.api.utils.hexToStr(resFromContract.result[0]);
+			} else {
+				str = hexToStr(resFromContract.result[0])
+			}
 			return str;
 		} catch (e) {
 			if(e == 'CANCELED'){
@@ -1066,11 +1091,11 @@ define("scripts/sence.js", function(exports){
 	exports.hideDojo = async function( callback ){
 		if (startGame) {
 			var player = await getAccount();
-	       	console.log(player);
-			console.log(scoreInt);
+	       	console.log("player addr: " + player);
+			console.log("player points: " + scoreInt);
 
 			var lastPlayerInfo = await find10th();
-			console.log(lastPlayerInfo)
+			console.log("last player points: " + lastPlayerInfo);
 
 			if (scoreInt <= parseInt(lastPlayerInfo)) {
 				swal("你和第10名还差" + (parseInt(lastPlayerInfo) - scoreInt).toString() + "分", {
