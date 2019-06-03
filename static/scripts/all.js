@@ -862,7 +862,11 @@ define("scripts/sence.js", function(exports){
 				result.isSuccess = false;
 			} else {
 				result.isSuccess = true;
-				result.transaction = resFromContract.transaction;
+				if (isPC()) {
+					result.transaction = resFromContract.transaction;
+				} else {
+					result.transaction = resFromContract.result;
+				}
 			}
 			console.log(result);
 			return result;
