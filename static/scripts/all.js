@@ -1076,7 +1076,6 @@ define("scripts/sence.js", function(exports){
 			} else {
 				str = resFromContract.result[0];
 			}
-			console.log("result of updateRanks: " + JSON.stringify(resFromContract));
 			return str;
 		} catch (e) {
 			if(e == 'CANCELED'){
@@ -1115,7 +1114,8 @@ define("scripts/sence.js", function(exports){
 				$("body").LoadingOverlay("show",{
 		            text: "恭喜您进入前10名！正在上传您的排名...请稍等"
 		        });
-		        setTimeout(async function (){
+		        if (isPC()) {
+		        	setTimeout(async function (){
 		        	var updateResult = await updateRanks(scoreInt.toString(), player);
 					console.log("result after updateRanks: " + updateResult);
 			        if (updateResult.includes("SUCCESSFUL")){
@@ -1125,13 +1125,20 @@ define("scripts/sence.js", function(exports){
 			                icon: "success"
 			            });
 			        } else {
-			        	$("body").LoadingOverlay("hide", true);
-			        	var point = updateResult.split("message")[1].split("type")[0].trim();
-			        	swal("你和第10名还差" + point + "分", {
-			                icon: "info"
-			            });
-			        }
-		        }, 2000);
+				        	$("body").LoadingOverlay("hide", true);
+				        	var point = updateResult.split("message")[1].split("type")[0].trim();
+				        	swal("你和第10名还差" + point + "分", {
+				                icon: "info"
+				            });
+				        }
+			        }, 2000);
+		        } else {
+		        	$("body").LoadingOverlay("hide", true);
+		        	swal("恭喜你，进入前十名", {
+		                icon: "success"
+		            });
+		        }
+		        
 			}
 			startGame = false;
 		}
