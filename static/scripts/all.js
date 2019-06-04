@@ -4490,7 +4490,7 @@ define("scripts/object/background.js", function(exports){
 	
 	exports.set = function(){
 		//image = layer.createImage( "default", "images/background.jpg", 0, 0, 960, 1280);
-		image = layer.createImage( "default", "images/background_3.jpg", 0, 0, 1080, 1920 );
+		image = layer.createImage( "default", "images/background_3.jpg", 0, 0, 550, 978 );
 	};
 	
 	exports.wobble = function(){
