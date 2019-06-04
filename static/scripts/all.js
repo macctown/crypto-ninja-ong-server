@@ -380,7 +380,7 @@ define("scripts/layer.js", function(exports){
 		}else{
 			layer = Ucren.makeElement( "div", { "class": "layer", "style": "z-index: " + ( zindexs[name] || 0 ) + ";" } );
 			Ucren.Element( "extra" ).add( layer );
-			p = layers[name] = Raphael( layer, 740, 1260 );
+			p = layers[name] = Raphael( layer, 740, 1240 );
 			//p = layers[name] = Raphael( layer, 960, 1280 );
 			// if( Ucren.isSafari )
 			//     p.safari();
@@ -4491,7 +4491,7 @@ define("scripts/object/background.js", function(exports){
 	
 	exports.set = function(){
 		//image = layer.createImage( "default", "images/background.jpg", 0, 0, 960, 1280);
-		image = layer.createImage( "default", "images/background_3.jpg", 0, 0, 740, 1260 );
+		image = layer.createImage( "default", "images/background_3.jpg", 0, 0, 740, 1240 );
 	};
 	
 	exports.wobble = function(){
@@ -4907,7 +4907,7 @@ define("scripts/object/home-mask.js", function(exports){
 	var displacement = require("scripts/factory/displacement");
 	var tween = require("scripts/lib/tween");
 	
-	exports = displacement.create("images/home-mask.png", 1260, 280, 0, -280, 0, 0, tween.exponential.co, 1e3);;
+	exports = displacement.create("images/home-mask.png", 1240, 280, 0, -280, 0, 0, tween.exponential.co, 1e3);;
 
 	return exports;
 });
@@ -5075,7 +5075,7 @@ define("scripts/object/light.js", function(exports){
 	
 	    var dur = 4e3;
 		//var mask = maskLayer.rect( 0, 0, 960, 1280 ).attr({ fill: "#fff", stroke: "none" });
-		var mask = maskLayer.rect( 0, 0, 740, 1260 ).attr({ fill: "#fff", stroke: "none" });
+		var mask = maskLayer.rect( 0, 0, 740, 1240 ).attr({ fill: "#fff", stroke: "none" });
 	    var control = {
 	    	onTimeUpdate: function( time ){
 	    		mask.attr( "opacity", 1 - time / dur );
