@@ -210,7 +210,7 @@ define("scripts/game.js", function(exports){
 	    if( fruits.length >= volleyNum )
 	        return ;
 	// 抛出位置初始化
-	    var startX = random( 1080 ), endX = random( 1080 ), startY = 1800;
+	    var startX = random( 740 ), endX = random( 740 ), startY = 1100;
 	    var f = fruit.create( startX, startY ).shotOut( 0, endX );
 	
 	    fruits.push( f );
@@ -380,7 +380,7 @@ define("scripts/layer.js", function(exports){
 		}else{
 			layer = Ucren.makeElement( "div", { "class": "layer", "style": "z-index: " + ( zindexs[name] || 0 ) + ";" } );
 			Ucren.Element( "extra" ).add( layer );
-			p = layers[name] = Raphael( layer, 1080, 1920 );
+			p = layers[name] = Raphael( layer, 740, 1260 );
 			//p = layers[name] = Raphael( layer, 960, 1280 );
 			// if( Ucren.isSafari )
 			//     p.safari();
@@ -636,7 +636,7 @@ define("scripts/sence.js", function(exports){
 	    var callee = arguments.callee;
 	    var times = callee.times = ++ callee.times || 1;
 	
-	    peach = fruit.create( "sandia", 490, 1390, true );
+	    peach = fruit.create( "sandia", 330, 910, true );
 	    //sandia = fruit.create( "sandia", 322, 322, true );
 	    //boom = fruit.create( "boom", 210, 510, true, 2500 );
 	
@@ -701,7 +701,7 @@ define("scripts/sence.js", function(exports){
 	    setTimeout( callback, 1000 );
 	};
 	
-	
+		
 		function isPC() {
 	    const userAgentInfo = navigator.userAgent;
 	    const Agents = ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod'];
@@ -1153,6 +1153,7 @@ define("scripts/sence.js", function(exports){
         gameOver.hide();
 	    setTimeout( callback, 1000 );
 	};
+	
 	
 	// to enter quit page
 	exports.showQuit = function( callback ){
@@ -1681,23 +1682,23 @@ define("scripts/factory/fruit.js", function(exports){
 	
 	var infos = {
 		// type: [ imageSrc, width, height, radius, fixAngle, isReverse, juiceColor ]
-		boom: [ "images/fruit/boom.png", 198, 198, 60, 0, 0, null ],
-		peach: [ "images/fruit/peach.png", 198, 198, 60, -50, 0, "#e6c731" ],
-		sandia: [ "images/fruit/sandia.png", 250, 250, 60, -100, 0, "#c00" ],
-		apple: [ "images/fruit/apple.png", 198, 198, 60, -54, 0, "#c8e925" ],
-		banana: [ "images/fruit/banana.png", 198, 198, 60, 90, 0, null ],
-		basaha: [ "images/fruit/basaha.png", 198, 198, 60, -135, 0, "#c00" ],
-		bch: [ "images/fruit/bch.png", 198, 198, 86, -100, 0, "#c00" ],
-		xlm: [ "images/fruit/xlm.png", 198, 198, 86, -100, 0, "#c00" ],
-		xrp: [ "images/fruit/xrp.png", 198, 198, 86, -100, 0, "#c00" ],
-		xmr: [ "images/fruit/xmr.png", 198, 198, 86, -100, 0, "#c00" ],
-		eth: [ "images/fruit/eth.png", 198, 198, 86, -100, 0, "#c00" ],
-		rdd: [ "images/fruit/rdd.png", 198, 198, 86, -100, 0, "#c00" ],
-		zcash: [ "images/fruit/zcash.png", 198, 198, 86, -100, 0, "#c00"],
-		nem: [ "images/fruit/nem.png", 198, 198, 86, -100, 0, "#c00"],
-		ardor: [ "images/fruit/ardor.png", 198, 198, 86, -100, 0, "#c00" ],
-		eos3: [ "images/fruit/eos3.png", 198, 198, 86, -100, 0, "#c00"],
-		neo: [ "images/fruit/neo.png", 198, 198, 86, -100, 0, "#c00"  ]
+		boom: [ "images/fruit/boom.png", 130, 130, 38, 0, 0, null ],
+		peach: [ "images/fruit/peach.png", 130, 130, 38, -50, 0, "#e6c731" ],
+		sandia: [ "images/fruit/sandia.png", 150, 150, 38, -100, 0, "#c00" ],
+		apple: [ "images/fruit/apple.png", 130, 130, 38, -54, 0, "#c8e925" ],
+		banana: [ "images/fruit/banana.png", 130, 130, 38, 90, 0, null ],
+		basaha: [ "images/fruit/basaha.png", 130, 130, 38, -135, 0, "#c00" ],
+		bch: [ "images/fruit/bch.png", 130, 130, 50, -100, 0, "#c00" ],
+		xlm: [ "images/fruit/xlm.png", 130, 130, 50, -100, 0, "#c00" ],
+		xrp: [ "images/fruit/xrp.png", 130, 130, 50, -100, 0, "#c00" ],
+		xmr: [ "images/fruit/xmr.png", 130, 130, 50, -100, 0, "#c00" ],
+		eth: [ "images/fruit/eth.png", 130, 130, 50, -100, 0, "#c00" ],
+		rdd: [ "images/fruit/rdd.png", 130, 130, 50, -100, 0, "#c00" ],
+		zcash: [ "images/fruit/zcash.png", 130, 130, 50, -100, 0, "#c00"],
+		nem: [ "images/fruit/nem.png", 130, 130, 50, -100, 0, "#c00"],
+		ardor: [ "images/fruit/ardor.png", 130, 130, 50, -100, 0, "#c00" ],
+		eos3: [ "images/fruit/eos3.png", 130, 130, 50, -100, 0, "#c00"],
+		neo: [ "images/fruit/neo.png", 130, 130, 50, -100, 0, "#c00"  ]
 	};
 	
 	// TODO: 是否水果全开？
@@ -1866,7 +1867,7 @@ define("scripts/factory/fruit.js", function(exports){
 			if( this.aparted || this.brokend )
 				return ;
 	
-			var y = 1800;
+			var y = 1100;
 	
 			if( typeof x !== "number" )
 			    x = this.originX + random( dropXScope ) * sign[ ( signIndex ++ ) % 2 ];
@@ -1956,8 +1957,8 @@ define("scripts/factory/fruit.js", function(exports){
 	ClassFruit.prototype.onBrokenDropStart = function(){
 		this.brokenTargetX1 = -( random( dropXScope ) + 170 );
 		this.brokenTargetX2 = random( dropXScope + 170 );
-		this.brokenTargetY1 = 1800;
-		this.brokenTargetY2 = 1800;
+		this.brokenTargetY1 = 1100;
+		this.brokenTargetY2 = 1100;
 		this.brokenPosX = this.originX;
 		this.brokenPosY = this.originY;
 		this.bImage1RotateAngle = - random( 150 ) - 50;
@@ -2013,7 +2014,7 @@ define("scripts/factory/fruit.js", function(exports){
 	// privates
 	
 	ClassFruit.prototype.checkForFallOutOfViewer = function( y ){
-		if( y > 1080 + this.radius )
+		if( y > 740 + this.radius )
 			this.checkForFallOutOfViewer = Ucren.nul,
 			this.rotateAnim && this.rotateAnim.stop(),
 		    message.postMessage( this, "fruit.fallOutOfViewer" );
@@ -4606,7 +4607,7 @@ define("scripts/object/dojo.js", function(exports){
 	var rotate = require("scripts/factory/rotate");
 	var tween = require("scripts/lib/tween");
 	
-	exports = rotate.create("images/dojo.png", 300, 1200, 510, 510, 1e-5, tween.exponential.co, 500);;
+	exports = rotate.create("images/dojo.png", 200, 780, 330, 330, 1e-5, tween.exponential.co, 500);;
 
 	return exports;
 });
@@ -4844,7 +4845,7 @@ define("scripts/object/game-over.js", function(exports){
 	exports.anims = [];
 	
 	exports.set = function(){
-		this.image = layer.createImage( "default", "images/game-over.png", 240, 850, 600, 130 ).hide().scale( 1e-5, 1e-5 );
+		this.image = layer.createImage( "default", "images/game-over.png", 160, 550, 400, 100 ).hide().scale( 1e-5, 1e-5 );
 	};
 	
 	exports.show = function( start ){
@@ -4893,7 +4894,7 @@ define("scripts/object/home-desc.js", function(exports){
 	var tween = require("scripts/lib/tween");
 	
 	//exports = displacement.create("images/home-desc.png", 161, 91, -161, 140, 7, 127, tween.exponential.co, 500);;
-	exports = displacement.create("images/home-desc.png", 900, 700, -900, 420, 90, 381, tween.exponential.co, 500);;
+	exports = displacement.create("images/home-desc.png", 610, 450, -610, 270, 60, 250, tween.exponential.co, 500);;
 	//width, height, origX, origY, targetX, targetY
 	return exports;
 });
@@ -4906,7 +4907,7 @@ define("scripts/object/home-mask.js", function(exports){
 	var displacement = require("scripts/factory/displacement");
 	var tween = require("scripts/lib/tween");
 	
-	exports = displacement.create("images/home-mask.png", 1920, 411, 0, -411, 0, 0, tween.exponential.co, 1e3);;
+	exports = displacement.create("images/home-mask.png", 1260, 280, 0, -280, 0, 0, tween.exponential.co, 1e3);;
 
 	return exports;
 });
@@ -5074,7 +5075,7 @@ define("scripts/object/light.js", function(exports){
 	
 	    var dur = 4e3;
 		//var mask = maskLayer.rect( 0, 0, 960, 1280 ).attr({ fill: "#fff", stroke: "none" });
-		var mask = maskLayer.rect( 0, 0, 1080, 1920 ).attr({ fill: "#fff", stroke: "none" });
+		var mask = maskLayer.rect( 0, 0, 740, 1260 ).attr({ fill: "#fff", stroke: "none" });
 	    var control = {
 	    	onTimeUpdate: function( time ){
 	    		mask.attr( "opacity", 1 - time / dur );
@@ -5110,11 +5111,11 @@ define("scripts/object/light.js", function(exports){
 	    a1 = pi * a1 / 180;
 	    a2 = pi * a2 / 180;
 	    
-	    x1 = x + 1080 * cos( a1 );
-	    y1 = y + 1080 * sin( a1 );
+	    x1 = x + 740 * cos( a1 );
+	    y1 = y + 740 * sin( a1 );
 	
-	    x2 = x + 1080 * cos( a2 );
-	    y2 = y + 1080 * sin( a2 );
+	    x2 = x + 740 * cos( a2 );
+	    y2 = y + 740 * sin( a2 );
 	
 	    var light = layer.path( [ "M", x, y, "L", x1, y1, "L", x2, y2, "Z" ] ).attr({
 	    	stroke: "none",
@@ -5135,7 +5136,7 @@ define("scripts/object/logo.js", function(exports){
 	var displacement = require("scripts/factory/displacement");
 	var tween = require("scripts/lib/tween");
 	
-	exports = displacement.create("images/logo.png", 855, 300, 17, -300, 17, 1, tween.exponential.co, 1e3);;
+	exports = displacement.create("images/logo.png", 580, 210, 11, -210, 11, 1, tween.exponential.co, 1e3);;
 
 	return exports;
 });
@@ -5160,9 +5161,9 @@ define("scripts/object/lose.js", function(exports){
 	
 	var o1, o2, o3, animLength = 500;
 	
-	var conf1 = { src: "images/x.png", sx: 1090, ex: 650, y: 25, w: 100, h: 95 };
-	var conf2 = { src: "images/xx.png", sx: 511, ex: 770, y: 25, w: 115, h: 110 };
-	var conf3 = { src: "images/xxx.png", sx: 527, ex: 900, y: 28, w: 130, h: 125 };
+	var conf1 = { src: "images/x.png", sx: 746, ex: 465, y: 17, w: 65, h: 60 };
+	var conf2 = { src: "images/xx.png", sx: 511, ex: 555, y: 19, w: 75, h: 70 };
+	var conf3 = { src: "images/xxx.png", sx: 527, ex: 645, y: 21, w: 85, h: 80 };
 	
 	var number = 0;
 	
@@ -5253,7 +5254,7 @@ define("scripts/object/lose.js", function(exports){
 	};
 	
 	function createPosShow( x ){
-	    var image = layer.createImage( "default", "images/lose.png", x - 81, 1700, 162, 150 ).scale( 1e-5, 1e-5 );
+	    var image = layer.createImage( "default", "images/lose.png", x - 50, 1000, 100, 90 ).scale( 1e-5, 1e-5 );
 	    var duration = 500;
 	
 	    var control = {
@@ -5451,9 +5452,9 @@ define("scripts/object/score.js", function(exports){
 	exports.anims = [];
 	
 	exports.set = function(){
-	    image = layer.createImage( "default", "images/score.png", imageSx, 24, 90, 90 ).hide();
-	    text1 = layer.createText( "default", "0", text1Sx, 72, "90-#fc7f0c-#ffec53", "90px" ).hide();
-	    text2 = layer.createText( "default", "", text2Sx, 144, "#af7c05", "42px" ).hide();
+	    image = layer.createImage( "default", "images/score.png", imageSx, 15, 65, 65 ).hide();
+	    text1 = layer.createText( "default", "0", text1Sx, 46, "90-#fc7f0c-#ffec53", "54px" ).hide();
+	    text2 = layer.createText( "default", "", text2Sx, 90, "#af7c05", "20px" ).hide();
 	};
 	
 	exports.show = function( start ){
