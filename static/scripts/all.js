@@ -158,8 +158,10 @@ define("scripts/control.js", function(exports){
 		var de = document.documentElement;
 	
 		var fix = function( e ){
-		    canvasLeft = ( de.clientWidth - 480 ) *2/ 3 ; //左侧空间，因为不对称，slice和鼠标不对应，须对应到相应比例
-		    canvasTop = ( de.clientHeight - 640 ) / 2 - 40 ;
+			canvasLeft = 0 ; //左侧空间，因为不对称，slice和鼠标不对应，须对应到相应比例
+		    canvasTop = 0 ;
+			//canvasLeft = ( de.clientWidth - 480 ) *2/ 3 ; //左侧空间，因为不对称，slice和鼠标不对应，须对应到相应比例
+		    //canvasTop = ( de.clientHeight - 640 ) / 2 - 40 ;
 		};
 	
 		fix();
@@ -208,7 +210,7 @@ define("scripts/game.js", function(exports){
 	    if( fruits.length >= volleyNum )
 	        return ;
 	// 抛出位置初始化
-	    var startX = random( 480 ), endX = random( 480 ), startY = 600;
+	    var startX = random( 1080 ), endX = random( 1080 ), startY = 1800;
 	    var f = fruit.create( startX, startY ).shotOut( 0, endX );
 	
 	    fruits.push( f );
@@ -378,7 +380,8 @@ define("scripts/layer.js", function(exports){
 		}else{
 			layer = Ucren.makeElement( "div", { "class": "layer", "style": "z-index: " + ( zindexs[name] || 0 ) + ";" } );
 			Ucren.Element( "extra" ).add( layer );
-			p = layers[name] = Raphael( layer, 480, 640 );
+			p = layers[name] = Raphael( layer, 1080, 1920 );
+			//p = layers[name] = Raphael( layer, 960, 1280 );
 			// if( Ucren.isSafari )
 			//     p.safari();
 			return p;
@@ -472,11 +475,11 @@ define("scripts/main.js", function(exports){
 	
 	var tip = "";
 	
-	// if( !Ucren.isChrome )
-	//     tip = "$为了获得最佳流畅度，推荐您使用 <span class='b'>Google Chrome</span> 体验本游戏";
+	if( !Ucren.isChrome )
+	    tip = "$为了获得最佳流畅度，推荐您使用 <span class='b'>Google Chrome</span> 体验本游戏";
 	
-	// if( !buzz.isSupported() )
-	//     tip = tip.replace( "$", "您的浏览器不支持 &lt;audio&gt 播放声效，且" );
+	if( !buzz.isSupported() )
+	    tip = tip.replace( "$", "您的浏览器不支持 &lt;audio&gt 播放声效，且" );
 	
 	tip = tip.replace( "$", "" );
 	
@@ -633,7 +636,7 @@ define("scripts/sence.js", function(exports){
 	    var callee = arguments.callee;
 	    var times = callee.times = ++ callee.times || 1;
 	
-	    peach = fruit.create( "sandia", 220, 480, true );
+	    peach = fruit.create( "sandia", 490, 1390, true );
 	    //sandia = fruit.create( "sandia", 322, 322, true );
 	    //boom = fruit.create( "boom", 210, 510, true, 2500 );
 	
@@ -698,7 +701,8 @@ define("scripts/sence.js", function(exports){
 	    setTimeout( callback, 1000 );
 	};
 	
-	function isPC() {
+	
+		function isPC() {
 	    const userAgentInfo = navigator.userAgent;
 	    const Agents = ['Android', 'iPhone', 'SymbianOS', 'Windows Phone', 'iPad', 'iPod'];
 	    let flag = true;
@@ -1673,27 +1677,27 @@ define("scripts/factory/fruit.js", function(exports){
 	var min = Math.min;
 	var average = function( a, b ){ return ( ( a + b ) / 2 ) >> 0; };
 	
-	var dropTime = 1200, dropXScope = 200, shadowPos = 50;
+	var dropTime = 1200, dropXScope = 200, shadowPos = 112;
 	
 	var infos = {
 		// type: [ imageSrc, width, height, radius, fixAngle, isReverse, juiceColor ]
-		boom: [ "images/fruit/boom.png", 66, 68, 26, 0, 0, null ],
-		peach: [ "images/fruit/peach.png", 66, 66, 37, -50, 0, "#e6c731" ],
-		sandia: [ "images/fruit/sandia.png", 90, 90, 38, -100, 0, "#c00" ],
-		apple: [ "images/fruit/apple.png", 66, 66, 31, -54, 0, "#c8e925" ],
-		banana: [ "images/fruit/banana.png", 66, 66, 43, 90, 0, null ],
-		basaha: [ "images/fruit/basaha.png", 66, 66, 32, -135, 0, "#c00" ],
-		bch: [ "images/fruit/bch.png", 66, 66, 38, -100, 0, "#c00" ],
-		xlm: [ "images/fruit/xlm.png", 66, 66, 38, -100, 0, "#c00" ],
-		xrp: [ "images/fruit/xrp.png", 66, 66, 38, -100, 0, "#c00" ],
-		xmr: [ "images/fruit/xmr.png", 66, 66, 38, -100, 0, "#c00" ],
-		eth: [ "images/fruit/eth.png", 66, 66, 38, -100, 0, "#c00" ],
-		rdd: [ "images/fruit/rdd.png", 66, 66, 38, -100, 0, "#c00" ],
-		zcash: [ "images/fruit/zcash.png", 66, 66, 38, -100, 0, "#c00"],
-		nem: [ "images/fruit/nem.png", 66, 66, 38, -100, 0, "#c00"],
-		ardor: [ "images/fruit/ardor.png", 66, 66, 38, -100, 0, "#c00" ],
-		eos3: [ "images/fruit/eos3.png", 66, 66, 38, -100, 0, "#c00"],
-		neo: [ "images/fruit/neo.png", 66, 66, 38, -100, 0, "#c00"  ]
+		boom: [ "images/fruit/boom.png", 198, 198, 60, 0, 0, null ],
+		peach: [ "images/fruit/peach.png", 198, 198, 60, -50, 0, "#e6c731" ],
+		sandia: [ "images/fruit/sandia.png", 250, 250, 60, -100, 0, "#c00" ],
+		apple: [ "images/fruit/apple.png", 198, 198, 60, -54, 0, "#c8e925" ],
+		banana: [ "images/fruit/banana.png", 198, 198, 60, 90, 0, null ],
+		basaha: [ "images/fruit/basaha.png", 198, 198, 60, -135, 0, "#c00" ],
+		bch: [ "images/fruit/bch.png", 198, 198, 86, -100, 0, "#c00" ],
+		xlm: [ "images/fruit/xlm.png", 198, 198, 86, -100, 0, "#c00" ],
+		xrp: [ "images/fruit/xrp.png", 198, 198, 86, -100, 0, "#c00" ],
+		xmr: [ "images/fruit/xmr.png", 198, 198, 86, -100, 0, "#c00" ],
+		eth: [ "images/fruit/eth.png", 198, 198, 86, -100, 0, "#c00" ],
+		rdd: [ "images/fruit/rdd.png", 198, 198, 86, -100, 0, "#c00" ],
+		zcash: [ "images/fruit/zcash.png", 198, 198, 86, -100, 0, "#c00"],
+		nem: [ "images/fruit/nem.png", 198, 198, 86, -100, 0, "#c00"],
+		ardor: [ "images/fruit/ardor.png", 198, 198, 86, -100, 0, "#c00" ],
+		eos3: [ "images/fruit/eos3.png", 198, 198, 86, -100, 0, "#c00"],
+		neo: [ "images/fruit/neo.png", 198, 198, 86, -100, 0, "#c00"  ]
 	};
 	
 	// TODO: 是否水果全开？
@@ -1862,7 +1866,7 @@ define("scripts/factory/fruit.js", function(exports){
 			if( this.aparted || this.brokend )
 				return ;
 	
-			var y = 600;
+			var y = 1800;
 	
 			if( typeof x !== "number" )
 			    x = this.originX + random( dropXScope ) * sign[ ( signIndex ++ ) % 2 ];
@@ -1950,10 +1954,10 @@ define("scripts/factory/fruit.js", function(exports){
 	};
 	
 	ClassFruit.prototype.onBrokenDropStart = function(){
-		this.brokenTargetX1 = -( random( dropXScope ) + 75 );
-		this.brokenTargetX2 = random( dropXScope + 75 );
-		this.brokenTargetY1 = 600;
-		this.brokenTargetY2 = 600;
+		this.brokenTargetX1 = -( random( dropXScope ) + 170 );
+		this.brokenTargetX2 = random( dropXScope + 170 );
+		this.brokenTargetY1 = 1800;
+		this.brokenTargetY2 = 1800;
 		this.brokenPosX = this.originX;
 		this.brokenPosY = this.originY;
 		this.bImage1RotateAngle = - random( 150 ) - 50;
@@ -2009,7 +2013,7 @@ define("scripts/factory/fruit.js", function(exports){
 	// privates
 	
 	ClassFruit.prototype.checkForFallOutOfViewer = function( y ){
-		if( y > 480 + this.radius )
+		if( y > 1080 + this.radius )
 			this.checkForFallOutOfViewer = Ucren.nul,
 			this.rotateAnim && this.rotateAnim.stop(),
 		    message.postMessage( this, "fruit.fallOutOfViewer" );
@@ -4485,7 +4489,8 @@ define("scripts/object/background.js", function(exports){
 	var random = Ucren.randomNumber;
 	
 	exports.set = function(){
-		image = layer.createImage( "default", "images/background.jpg", 0, 0, 480, 640 );
+		//image = layer.createImage( "default", "images/background.jpg", 0, 0, 960, 1280);
+		image = layer.createImage( "default", "images/background_3.jpg", 0, 0, 1080, 1920 );
 	};
 	
 	exports.wobble = function(){
@@ -4601,7 +4606,7 @@ define("scripts/object/dojo.js", function(exports){
 	var rotate = require("scripts/factory/rotate");
 	var tween = require("scripts/lib/tween");
 	
-	exports = rotate.create("images/dojo.png", 141, 400, 175, 175, 1e-5, tween.exponential.co, 500);;
+	exports = rotate.create("images/dojo.png", 300, 1200, 510, 510, 1e-5, tween.exponential.co, 500);;
 
 	return exports;
 });
@@ -4839,7 +4844,7 @@ define("scripts/object/game-over.js", function(exports){
 	exports.anims = [];
 	
 	exports.set = function(){
-		this.image = layer.createImage( "default", "images/game-over.png", 105, 250, 280, 60 ).hide().scale( 1e-5, 1e-5 );
+		this.image = layer.createImage( "default", "images/game-over.png", 240, 850, 600, 130 ).hide().scale( 1e-5, 1e-5 );
 	};
 	
 	exports.show = function( start ){
@@ -4888,7 +4893,7 @@ define("scripts/object/home-desc.js", function(exports){
 	var tween = require("scripts/lib/tween");
 	
 	//exports = displacement.create("images/home-desc.png", 161, 91, -161, 140, 7, 127, tween.exponential.co, 500);;
-	exports = displacement.create("images/home-desc.png", 375, 275, -375, 140, 40, 127, tween.exponential.co, 500);;
+	exports = displacement.create("images/home-desc.png", 900, 700, -900, 420, 90, 381, tween.exponential.co, 500);;
 	//width, height, origX, origY, targetX, targetY
 	return exports;
 });
@@ -4901,7 +4906,7 @@ define("scripts/object/home-mask.js", function(exports){
 	var displacement = require("scripts/factory/displacement");
 	var tween = require("scripts/lib/tween");
 	
-	exports = displacement.create("images/home-mask.png", 640, 183, 0, -183, 0, 0, tween.exponential.co, 1e3);;
+	exports = displacement.create("images/home-mask.png", 1920, 411, 0, -411, 0, 0, tween.exponential.co, 1e3);;
 
 	return exports;
 });
@@ -5068,7 +5073,8 @@ define("scripts/object/light.js", function(exports){
 	    this.removeLights();
 	
 	    var dur = 4e3;
-	    var mask = maskLayer.rect( 0, 0, 480, 640 ).attr({ fill: "#fff", stroke: "none" });
+		//var mask = maskLayer.rect( 0, 0, 960, 1280 ).attr({ fill: "#fff", stroke: "none" });
+		var mask = maskLayer.rect( 0, 0, 1080, 1920 ).attr({ fill: "#fff", stroke: "none" });
 	    var control = {
 	    	onTimeUpdate: function( time ){
 	    		mask.attr( "opacity", 1 - time / dur );
@@ -5104,11 +5110,11 @@ define("scripts/object/light.js", function(exports){
 	    a1 = pi * a1 / 180;
 	    a2 = pi * a2 / 180;
 	    
-	    x1 = x + 480 * cos( a1 );
-	    y1 = y + 480 * sin( a1 );
+	    x1 = x + 1080 * cos( a1 );
+	    y1 = y + 1080 * sin( a1 );
 	
-	    x2 = x + 480 * cos( a2 );
-	    y2 = y + 480 * sin( a2 );
+	    x2 = x + 1080 * cos( a2 );
+	    y2 = y + 1080 * sin( a2 );
 	
 	    var light = layer.path( [ "M", x, y, "L", x1, y1, "L", x2, y2, "Z" ] ).attr({
 	    	stroke: "none",
@@ -5129,7 +5135,7 @@ define("scripts/object/logo.js", function(exports){
 	var displacement = require("scripts/factory/displacement");
 	var tween = require("scripts/lib/tween");
 	
-	exports = displacement.create("images/logo.png", 380, 135, 17, -182, 17, 1, tween.exponential.co, 1e3);;
+	exports = displacement.create("images/logo.png", 855, 300, 17, -300, 17, 1, tween.exponential.co, 1e3);;
 
 	return exports;
 });
@@ -5154,9 +5160,9 @@ define("scripts/object/lose.js", function(exports){
 	
 	var o1, o2, o3, animLength = 500;
 	
-	var conf1 = { src: "images/x.png", sx: 490, ex: 401, y: 5, w: 22, h: 19 };
-	var conf2 = { src: "images/xx.png", sx: 511, ex: 422, y: 5, w: 27, h: 26 };
-	var conf3 = { src: "images/xxx.png", sx: 527, ex: 448, y: 6, w: 31, h: 32 };
+	var conf1 = { src: "images/x.png", sx: 1090, ex: 650, y: 25, w: 100, h: 95 };
+	var conf2 = { src: "images/xx.png", sx: 511, ex: 770, y: 25, w: 115, h: 110 };
+	var conf3 = { src: "images/xxx.png", sx: 527, ex: 900, y: 28, w: 130, h: 125 };
 	
 	var number = 0;
 	
@@ -5247,7 +5253,7 @@ define("scripts/object/lose.js", function(exports){
 	};
 	
 	function createPosShow( x ){
-	    var image = layer.createImage( "default", "images/lose.png", x - 27, 566, 54, 50 ).scale( 1e-5, 1e-5 );
+	    var image = layer.createImage( "default", "images/lose.png", x - 81, 1700, 162, 150 ).scale( 1e-5, 1e-5 );
 	    var duration = 500;
 	
 	    var control = {
@@ -5433,9 +5439,9 @@ define("scripts/object/score.js", function(exports){
 	
 	var image, text1, text2, animLength = 500;;
 	
-	var imageSx = -94, imageEx = 6;
-	var text1Sx = -59, text1Ex = 41;
-	var text2Sx = -93, text2Ex = 7;
+	var imageSx = -94, imageEx = 18;
+	var text1Sx = -59, text1Ex = 123;
+	var text2Sx = -93, text2Ex = 24;
 	
 	exports.getText1 = function () {
 		"use strict";
@@ -5445,9 +5451,9 @@ define("scripts/object/score.js", function(exports){
 	exports.anims = [];
 	
 	exports.set = function(){
-	    image = layer.createImage( "default", "images/score.png", imageSx, 8, 29, 31 ).hide();
-	    text1 = layer.createText( "default", "0", text1Sx, 24, "90-#fc7f0c-#ffec53", "30px" ).hide();
-	    text2 = layer.createText( "default", "", text2Sx, 48, "#af7c05", "14px" ).hide();
+	    image = layer.createImage( "default", "images/score.png", imageSx, 24, 90, 90 ).hide();
+	    text1 = layer.createText( "default", "0", text1Sx, 72, "90-#fc7f0c-#ffec53", "90px" ).hide();
+	    text2 = layer.createText( "default", "", text2Sx, 144, "#af7c05", "42px" ).hide();
 	};
 	
 	exports.show = function( start ){
