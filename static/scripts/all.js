@@ -1027,11 +1027,12 @@ define("scripts/sence.js", function(exports){
 		try {
 			const resFromContract = await client.api.smartContract.invokeRead(params);
 			console.log(resFromContract);
+			console.log(hexToStr(resFromContract.result.Result));
 			var str = "";
 			if (isPC()) {
 				str = client.api.utils.hexToStr(resFromContract);
 			} else {
-				str = hexToStr(resFromContract)
+				str = hexToStr(resFromContract.result.Result);
 			}
 			var strArr = str.split("score");
 			return strArr[strArr.length-1].trim();
