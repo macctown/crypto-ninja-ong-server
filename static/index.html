@@ -56,7 +56,7 @@
 </head>
 <body>
 <div id="extra"></div>
-<canvas id="view" width="2000" height="4000"></canvas> 
+<canvas id="view" width="1000" height="1260"></canvas> 
 <!-- // setting canvase  above does not matter -->
 <div id="stat">
 	<span class="stat-tag" id="visitor-count"> </span>
@@ -66,5 +66,12 @@
 <div id="browser"></div>
 </div>
 <script src="scripts/all.js"></script>
+<script>
+    document.body.addEventListener('touchmove', function(event) {
+        console.log(event.source);
+        //if (event.source == document.body)
+        event.preventDefault();
+    }, false);
+</script>
 </body>
 </html>
