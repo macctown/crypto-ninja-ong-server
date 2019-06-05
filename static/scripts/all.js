@@ -1026,6 +1026,7 @@ define("scripts/sence.js", function(exports){
 		}
 		try {
 			const resFromContract = await client.api.smartContract.invokeRead(params);
+			console.log(resFromContract);
 			var str = "";
 			if (isPC()) {
 				str = client.api.utils.hexToStr(resFromContract);
