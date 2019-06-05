@@ -1082,7 +1082,7 @@ define("scripts/sence.js", function(exports){
 			if (isPC()) {
 				str = client.api.utils.hexToStr(resFromContract.result[0]);
 			} else {
-				str = resFromContract.result[0];
+				str = resFromContract.result;
 			}
 			return str;
 		} catch (e) {
@@ -1119,9 +1119,12 @@ define("scripts/sence.js", function(exports){
         			console.log("Get txn notify content: " + JSON.stringify(data));
         			for (var index in data.Result.Notify) {
         				if (data.Result.Notify[index].ContractAddress == "f46cae77699db8bb84e23b97c9c016a23da8c22d") {
+        					isFetchTxnNotifyRunning = false;
         					return hexToStr(data.Result.Notify[index].States);
         				}
         			}
+        		} else {
+        			return 'Fail';
         		}
             }
         });
@@ -1147,10 +1150,15 @@ define("scripts/sence.js", function(exports){
 				$("body").LoadingOverlay("show",{
 		            text: "恭喜您进入前10名！正在上传您的排名...请稍等"
 		        });
+		        var intervalQuery;
 		        setTimeout(async function (){
 		        	var updateResult = await updateRanks(scoreInt.toString(), player);
 					if (!isPC()) {
-						updateResult = fetchTxnNotify(updateResult.result, true);
+						var isFetchTxnNotifyRunning = true;
+						intervalQuery = setInterval(function () {
+							isFetchTxnNotifyRunning = true;
+							updateResult = fetchTxnStatus(updateResult.result, true);
+						}, 3000);
 					}
 					console.log("result after updateRanks: " + updateResult);
 			        if (updateResult.includes("SUCCESSFUL")){
