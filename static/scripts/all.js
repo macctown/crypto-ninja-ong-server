@@ -1122,7 +1122,6 @@ define("scripts/sence.js", function(exports){
         					return hexToStr(data.Result.Notify[index].States);
         				}
         			}
-					setTimeout( callback, 1000 );
         		}
             }
         });
@@ -1150,10 +1149,10 @@ define("scripts/sence.js", function(exports){
 		        });
 		        setTimeout(async function (){
 		        	var updateResult = await updateRanks(scoreInt.toString(), player);
-					console.log("result after updateRanks: " + updateResult);
 					if (!isPC()) {
 						updateResult = fetchTxnNotify(updateResult.result, true);
 					}
+					console.log("result after updateRanks: " + updateResult);
 			        if (updateResult.includes("SUCCESSFUL")){
 			        	$("body").LoadingOverlay("hide", true);
 			        	var rank = updateResult.split("message")[1].split("type")[0].trim();
