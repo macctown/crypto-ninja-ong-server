@@ -1033,13 +1033,9 @@ define("scripts/sence.js", function(exports){
 			} else {
 				str = hexToStr(resFromContract.result.Result);
 			}
-			console.log(hexToStr(resFromContract.result.Result));
 			var strArr = str.split("score");
-			console.log(strArr);
 			var score = strArr[strArr.length-1].trim();
-			console.log(score);
 			score = score.replace(/\D/g,'');
-			console.log(score);
 			return score;
 		} catch (e) {
 			
@@ -1081,6 +1077,7 @@ define("scripts/sence.js", function(exports){
 		}
 		try {
 			const resFromContract = await client.api.smartContract.invoke(params);
+			console.log(resFromContract);
 			var str = "";
 			if (isPC()) {
 				str = client.api.utils.hexToStr(resFromContract.result[0]);
@@ -1144,10 +1141,13 @@ define("scripts/sence.js", function(exports){
 				        }
 			        }, 2000);
 		        } else {
-		        	$("body").LoadingOverlay("hide", true);
-		        	swal("恭喜你，进入前十名", {
-		                icon: "success"
-		            });
+		        	setTimeout(async function (){
+		        		var updateResult = await updateRanks(scoreInt.toString(), player);
+		        		$("body").LoadingOverlay("hide", true);
+			        	swal("恭喜你，进入前十名", {
+			                icon: "success"
+			            });
+		        	}, 2000);
 		        }
 		        
 			}
