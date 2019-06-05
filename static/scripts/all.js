@@ -1102,6 +1102,32 @@ define("scripts/sence.js", function(exports){
 		}
     }
 
+    function fetchTxnNotify(hash, isTestNet) {
+    	var url;
+    	if (isTestNet) {
+    		url = "http://polaris1.ont.io:20334/api/v1/smartcode/event/txhash/" + hash;
+    	} else {
+    		url = "https://dappnode1.ont.io:20334/api/v1/smartcode/event/txhash/" + hash;
+    	}
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            contentType: 'application/json',
+            success: function (data) {
+        		if (data.Result.State == 1) {
+        			console.log("Get txn notify content: " + JSON.stringify(data));
+        			for (var index in data.Result.Notify) {
+        				if (data.Result.Notify[index].ContractAddress == "f46cae77699db8bb84e23b97c9c016a23da8c22d") {
+        					return hexToStr(data.Result.Notify[index].States);
+        				}
+        			}
+					setTimeout( callback, 1000 );
+        		}
+            }
+        });
+	};
+
 	// to exit dojo mode
 	exports.hideDojo = async function( callback ){
 		if (startGame) {
@@ -1122,10 +1148,12 @@ define("scripts/sence.js", function(exports){
 				$("body").LoadingOverlay("show",{
 		            text: "恭喜您进入前10名！正在上传您的排名...请稍等"
 		        });
-		        if (isPC()) {
-		        	setTimeout(async function (){
+		        setTimeout(async function (){
 		        	var updateResult = await updateRanks(scoreInt.toString(), player);
 					console.log("result after updateRanks: " + updateResult);
+					if (!isPC()) {
+						updateResult = fetchTxnNotify(updateResult.result, true);
+					}
 			        if (updateResult.includes("SUCCESSFUL")){
 			        	$("body").LoadingOverlay("hide", true);
 			        	var rank = updateResult.split("message")[1].split("type")[0].trim();
@@ -1133,23 +1161,13 @@ define("scripts/sence.js", function(exports){
 			                icon: "success"
 			            });
 			        } else {
-				        	$("body").LoadingOverlay("hide", true);
-				        	var point = updateResult.split("message")[1].split("type")[0].trim();
-				        	swal("你和第10名还差" + point + "分", {
-				                icon: "info"
-				            });
-				        }
-			        }, 2000);
-		        } else {
-		        	setTimeout(async function (){
-		        		var updateResult = await updateRanks(scoreInt.toString(), player);
-		        		$("body").LoadingOverlay("hide", true);
-			        	swal("恭喜你，进入前十名", {
-			                icon: "success"
+			        	$("body").LoadingOverlay("hide", true);
+			        	var point = updateResult.split("message")[1].split("type")[0].trim();
+			        	swal("你和第10名还差" + point + "分", {
+			                icon: "info"
 			            });
-		        	}, 2000);
-		        }
-		        
+			        }
+		        }, 2000);
 			}
 			startGame = false;
 		}
