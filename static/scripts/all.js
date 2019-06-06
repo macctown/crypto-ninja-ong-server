@@ -1127,10 +1127,10 @@ define("scripts/sence.js", function(exports){
 		        setTimeout(async function (){
 		        	var updateResult = await updateRanks(scoreInt.toString(), player);
 					if (!isPC() || (updateResult.result != undefined)) {
-						console.log("going to fetch notify: " + updateResult.result);
+						console.log("going to fetch notify: " + updateResult);
 						intervalQuery = setInterval(function () {
 							isFetchTxnNotifyRunning = true;
-							updateResult = fetchTxnStatus(updateResult.result, true);
+							updateResult = fetchTxnStatus(updateResult, true);
 						}, 3000);
 					}
 					console.log("result after updateRanks: " + updateResult);
