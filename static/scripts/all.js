@@ -1106,40 +1106,7 @@ define("scripts/sence.js", function(exports){
 	// to exit dojo mode
 	exports.hideDojo = async function( callback ){
 		async function fetchTxnNotify(hash, isTestNet) {
-			console.log("hash: " + hash + ", isTestNet: " + isTestNet);
-	    	var url;
-	    	if (isTestNet) {
-	    		url = "http://polaris1.ont.io:20334/api/v1/smartcode/event/txhash/" + hash;
-	    	} else {
-	    		url = "https://dappnode1.ont.io:20334/api/v1/smartcode/event/txhash/" + hash;
-	    	}
-	        $.ajax({
-	            url: url,
-	            type: 'GET',
-	            dataType: 'json',
-	            async: false,
-	            contentType: 'application/json',
-	            success: function (data) {
-	            	console.log(data);
-		        	intervalQuery.stop();
-	        		if (data.Result.State == 1) {
-	        			console.log("Get txn notify content: " + JSON.stringify(data));
-	        			for (var index in data.Result.Notify) {
-	        				if (data.Result.Notify[index].ContractAddress == "f46cae77699db8bb84e23b97c9c016a23da8c22d") {
-	        					isFetchTxnNotifyRunning = false;
-	        					return hexToStr(data.Result.Notify[index].States);
-	        				}
-	        			}
-	        		} else {
-	        			return 'Fail';
-	        		}
-	            },
-	            fail: function(err) {
-		        	intervalQuery.stop();
-	            	console.log(err);
-	            	return 'Fail';
-	            }
-	        });
+
 		};
 
 		if (startGame) {
@@ -1165,7 +1132,38 @@ define("scripts/sence.js", function(exports){
 		        	console.log("updateResult: " + updateResult);
 					if (!isPC() || (updateResult.result != undefined)) {
 						console.log("going to fetch notify: " + updateResult.result);
-						updateResult = await fetchTxnStatus(updateResult.result, true);
+						var isTestNet = true;
+				    	var url;
+				    	if (isTestNet) {
+				    		url = "http://polaris1.ont.io:20334/api/v1/smartcode/event/txhash/" + updateResult.result;
+				    	} else {
+				    		url = "https://dappnode1.ont.io:20334/api/v1/smartcode/event/txhash/" + updateResult.result;
+				    	}
+				    	console.log("before ajax url: " + url);
+				        $.ajax({
+				            url: url,
+				            type: 'GET',
+				            dataType: 'json',
+				            async: false,
+				            contentType: 'application/json',
+				            success: function (data) {
+				            	console.log(data);
+				        		if (data.Result.State == 1) {
+				        			console.log("Get txn notify content: " + JSON.stringify(data));
+				        			for (var index in data.Result.Notify) {
+				        				if (data.Result.Notify[index].ContractAddress == "f46cae77699db8bb84e23b97c9c016a23da8c22d") {
+				    						updateResult = hexToStr(data.Result.Notify[index].States);
+				        				}
+				        			}
+				        		} else {
+				        			updateResult = 'Fail';
+				        		}
+				            },
+				            fail: function(err) {
+				            	console.log(err);
+				            	updateResult = 'Fail';
+				            }
+				        });
 					}
 					console.log("result after updateRanks: " + updateResult);
 			        if (updateResult.includes("SUCCESSFUL")){
