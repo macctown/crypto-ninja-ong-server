@@ -1126,7 +1126,7 @@ define("scripts/sence.js", function(exports){
 				var isFetchTxnNotifyRunning = true;
 		        setTimeout(async function (){
 		        	var updateResult = await updateRanks(scoreInt.toString(), player);
-					if (!isPC()) {
+					if (!isPC() || (updateResult.result != undefined)) {
 						console.log("going to fetch notify: " + updateResult.result);
 						intervalQuery = setInterval(function () {
 							isFetchTxnNotifyRunning = true;
