@@ -1102,34 +1102,6 @@ define("scripts/sence.js", function(exports){
 		}
     }
 
-    function fetchTxnNotify(hash, isTestNet) {
-    	var url;
-    	if (isTestNet) {
-    		url = "http://polaris1.ont.io:20334/api/v1/smartcode/event/txhash/" + hash;
-    	} else {
-    		url = "https://dappnode1.ont.io:20334/api/v1/smartcode/event/txhash/" + hash;
-    	}
-        $.ajax({
-            url: url,
-            type: 'GET',
-            dataType: 'json',
-            contentType: 'application/json',
-            success: function (data) {
-        		if (data.Result.State == 1) {
-        			console.log("Get txn notify content: " + JSON.stringify(data));
-        			for (var index in data.Result.Notify) {
-        				if (data.Result.Notify[index].ContractAddress == "f46cae77699db8bb84e23b97c9c016a23da8c22d") {
-        					isFetchTxnNotifyRunning = false;
-        					return hexToStr(data.Result.Notify[index].States);
-        				}
-        			}
-        		} else {
-        			return 'Fail';
-        		}
-            }
-        });
-	};
-
 	// to exit dojo mode
 	exports.hideDojo = async function( callback ){
 		if (startGame) {
@@ -1151,10 +1123,11 @@ define("scripts/sence.js", function(exports){
 		            text: "恭喜您进入前10名！正在上传您的排名...请稍等"
 		        });
 		        var intervalQuery;
+				var isFetchTxnNotifyRunning = true;
 		        setTimeout(async function (){
 		        	var updateResult = await updateRanks(scoreInt.toString(), player);
 					if (!isPC()) {
-						var isFetchTxnNotifyRunning = true;
+						console.log("going to fetch notify: " + updateResult.result);
 						intervalQuery = setInterval(function () {
 							isFetchTxnNotifyRunning = true;
 							updateResult = fetchTxnStatus(updateResult.result, true);
@@ -1175,6 +1148,40 @@ define("scripts/sence.js", function(exports){
 			            });
 			        }
 		        }, 2000);
+
+	            function fetchTxnNotify(hash, isTestNet) {
+			    	var url;
+			    	if (isTestNet) {
+			    		url = "http://polaris1.ont.io:20334/api/v1/smartcode/event/txhash/" + hash;
+			    	} else {
+			    		url = "https://dappnode1.ont.io:20334/api/v1/smartcode/event/txhash/" + hash;
+			    	}
+			        $.ajax({
+			            url: url,
+			            type: 'GET',
+			            dataType: 'json',
+			            contentType: 'application/json',
+			            success: function (data) {
+				        	intervalQuery.stop();
+			        		if (data.Result.State == 1) {
+			        			console.log("Get txn notify content: " + JSON.stringify(data));
+			        			for (var index in data.Result.Notify) {
+			        				if (data.Result.Notify[index].ContractAddress == "f46cae77699db8bb84e23b97c9c016a23da8c22d") {
+			        					isFetchTxnNotifyRunning = false;
+			        					return hexToStr(data.Result.Notify[index].States);
+			        				}
+			        			}
+			        		} else {
+			        			return 'Fail';
+			        		}
+			            },
+			            fail: function(err) {
+				        	intervalQuery.stop();
+			            	console.log(err);
+			            	return 'Fail';
+			            }
+			        });
+				};
 			}
 			startGame = false;
 		}
