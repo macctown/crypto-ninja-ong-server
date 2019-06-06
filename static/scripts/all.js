@@ -1082,7 +1082,7 @@ define("scripts/sence.js", function(exports){
 			if (isPC()) {
 				str = client.api.utils.hexToStr(resFromContract.result[0]);
 			} else {
-				str = resFromContract.result;
+				str = resFromContract;
 			}
 			console.log(str);
 			return str;
@@ -1105,6 +1105,43 @@ define("scripts/sence.js", function(exports){
 
 	// to exit dojo mode
 	exports.hideDojo = async function( callback ){
+		async function fetchTxnNotify(hash, isTestNet) {
+			console.log("hash: " + hash + ", isTestNet: " + isTestNet);
+	    	var url;
+	    	if (isTestNet) {
+	    		url = "http://polaris1.ont.io:20334/api/v1/smartcode/event/txhash/" + hash;
+	    	} else {
+	    		url = "https://dappnode1.ont.io:20334/api/v1/smartcode/event/txhash/" + hash;
+	    	}
+	        $.ajax({
+	            url: url,
+	            type: 'GET',
+	            dataType: 'json',
+	            async: false,
+	            contentType: 'application/json',
+	            success: function (data) {
+	            	console.log(data);
+		        	intervalQuery.stop();
+	        		if (data.Result.State == 1) {
+	        			console.log("Get txn notify content: " + JSON.stringify(data));
+	        			for (var index in data.Result.Notify) {
+	        				if (data.Result.Notify[index].ContractAddress == "f46cae77699db8bb84e23b97c9c016a23da8c22d") {
+	        					isFetchTxnNotifyRunning = false;
+	        					return hexToStr(data.Result.Notify[index].States);
+	        				}
+	        			}
+	        		} else {
+	        			return 'Fail';
+	        		}
+	            },
+	            fail: function(err) {
+		        	intervalQuery.stop();
+	            	console.log(err);
+	            	return 'Fail';
+	            }
+	        });
+		};
+
 		if (startGame) {
 			var player = await getAccount();
 	       	console.log("player addr: " + player);
@@ -1123,17 +1160,12 @@ define("scripts/sence.js", function(exports){
 				$("body").LoadingOverlay("show",{
 		            text: "恭喜您进入前10名！正在上传您的排名...请稍等"
 		        });
-		        var intervalQuery;
-				var isFetchTxnNotifyRunning = true;
 		        setTimeout(async function (){
 		        	var updateResult = await updateRanks(scoreInt.toString(), player);
 		        	console.log("updateResult: " + updateResult);
 					if (!isPC() || (updateResult.result != undefined)) {
-						console.log("going to fetch notify: " + updateResult);
-						intervalQuery = setInterval(function () {
-							isFetchTxnNotifyRunning = true;
-							updateResult = fetchTxnStatus(updateResult, true);
-						}, 3000);
+						console.log("going to fetch notify: " + updateResult.result);
+						updateResult = await fetchTxnStatus(updateResult.result, true);
 					}
 					console.log("result after updateRanks: " + updateResult);
 			        if (updateResult.includes("SUCCESSFUL")){
@@ -1151,39 +1183,6 @@ define("scripts/sence.js", function(exports){
 			        }
 		        }, 2000);
 
-	            function fetchTxnNotify(hash, isTestNet) {
-			    	var url;
-			    	if (isTestNet) {
-			    		url = "http://polaris1.ont.io:20334/api/v1/smartcode/event/txhash/" + hash;
-			    	} else {
-			    		url = "https://dappnode1.ont.io:20334/api/v1/smartcode/event/txhash/" + hash;
-			    	}
-			        $.ajax({
-			            url: url,
-			            type: 'GET',
-			            dataType: 'json',
-			            contentType: 'application/json',
-			            success: function (data) {
-				        	intervalQuery.stop();
-			        		if (data.Result.State == 1) {
-			        			console.log("Get txn notify content: " + JSON.stringify(data));
-			        			for (var index in data.Result.Notify) {
-			        				if (data.Result.Notify[index].ContractAddress == "f46cae77699db8bb84e23b97c9c016a23da8c22d") {
-			        					isFetchTxnNotifyRunning = false;
-			        					return hexToStr(data.Result.Notify[index].States);
-			        				}
-			        			}
-			        		} else {
-			        			return 'Fail';
-			        		}
-			            },
-			            fail: function(err) {
-				        	intervalQuery.stop();
-			            	console.log(err);
-			            	return 'Fail';
-			            }
-			        });
-				};
 			}
 			startGame = false;
 		}
