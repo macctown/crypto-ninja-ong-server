@@ -1084,6 +1084,7 @@ define("scripts/sence.js", function(exports){
 			} else {
 				str = resFromContract.result;
 			}
+			console.log(str);
 			return str;
 		} catch (e) {
 			if(e == 'CANCELED'){
@@ -1126,6 +1127,7 @@ define("scripts/sence.js", function(exports){
 				var isFetchTxnNotifyRunning = true;
 		        setTimeout(async function (){
 		        	var updateResult = await updateRanks(scoreInt.toString(), player);
+		        	console.log("updateResult: " + updateResult);
 					if (!isPC() || (updateResult.result != undefined)) {
 						console.log("going to fetch notify: " + updateResult);
 						intervalQuery = setInterval(function () {
