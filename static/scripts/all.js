@@ -1135,15 +1135,15 @@ define("scripts/sence.js", function(exports){
 						var isTestNet = true;
 				    	var url;
 				    	if (isTestNet) {
-				    		url = "http://polaris1.ont.io:20334/api/v1/smartcode/event/txhash/" + updateResult.result;
+				    		url = "https://polaris1.ont.io:10334/api/v1/smartcode/event/txhash/" + updateResult.result;
 				    	} else {
-				    		url = "https://dappnode1.ont.io:20334/api/v1/smartcode/event/txhash/" + updateResult.result;
+				    		url = "https://dappnode1.ont.io:10334/api/v1/smartcode/event/txhash/" + updateResult.result;
 				    	}
 				    	console.log("before ajax url: " + url);
 				        $.ajax({
 				            url: url,
 				            type: 'GET',
-				            dataType: 'jsonp',
+				            dataType: 'json',
 				            async: false,
 				            contentType: 'application/json',
 				            success: function (data) {
