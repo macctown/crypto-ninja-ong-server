@@ -1143,7 +1143,7 @@ define("scripts/sence.js", function(exports){
 				        $.ajax({
 				            url: url,
 				            type: 'GET',
-				            dataType: 'json',
+				            dataType: 'jsonp',
 				            async: false,
 				            contentType: 'application/json',
 				            success: function (data) {
